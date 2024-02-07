@@ -1,6 +1,6 @@
-package com.letcode.SecureBankSystem.controller;
+package com.letcode.SecureBankSystem.bo;
 
-public class Fields {
+public class CreateFarewellRequest {
     private String name;
 
 

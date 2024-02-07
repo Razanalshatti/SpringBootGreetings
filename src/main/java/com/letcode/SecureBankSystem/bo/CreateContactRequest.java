@@ -1,6 +1,6 @@
-package com.letcode.SecureBankSystem.controller;
+package com.letcode.SecureBankSystem.bo;
 
-public class Contact {
+public class CreateContactRequest {
     private String name;
     private String email;
     private Long phone;

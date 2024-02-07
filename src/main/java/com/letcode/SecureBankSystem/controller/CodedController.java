@@ -1,5 +1,7 @@
 package com.letcode.SecureBankSystem.controller;
 
+import com.letcode.SecureBankSystem.bo.CreateContactRequest;
+import com.letcode.SecureBankSystem.bo.CreateFarewellRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,7 +12,11 @@ import java.util.Optional;
 
 @RestController
 public class CodedController {
-    private List<Contact> contacts = new ArrayList<>();
+    private List<CreateContactRequest> contacts = new ArrayList<>();
+
+    private boolean contactExists(String name) {
+        return contacts.stream().anyMatch(c -> c.getName().equals(name));
+    }
 
     @GetMapping("/sayHi")
     public String sayHi() {
@@ -22,28 +28,10 @@ public class CodedController {
         return "Hello " + name + "!";
     }
 
-    @PostMapping("/farewell")
-    public String farewell(@RequestBody Fields fields) {
-        String name = fields.getName();
-        return "Goodbye," + name;
-    }
-
-    @PostMapping("/addContact")
-    public ResponseEntity<String> addContact(@RequestBody Contact contact) {
-        if (contactExists(contact.getName())) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Contact already exists! \n Pleae try again.");
-        }
-        contacts.add(contact);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Contact Added Successfully!");
-    }
-
-    private boolean contactExists(String name) {
-        return contacts.stream().anyMatch(c -> c.getName().equals(name));
-    }
 
     @GetMapping("/getContactDetails")
     public ResponseEntity<Object> getContactDetails(@RequestParam String name) {
-        Optional<Contact> foundContact = contacts.stream()
+        Optional<CreateContactRequest> foundContact = contacts.stream()
                 .filter(c -> c.getName().equals(name))
                 .findFirst();
 
@@ -52,6 +40,21 @@ public class CodedController {
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Contact not found.");
         }
+    }
+
+    @PostMapping("/farewell")
+    public String farewell(@RequestBody CreateFarewellRequest fields) {
+        String name = fields.getName();
+        return "Goodbye," + name;
+    }
+
+    @PostMapping("/addContact")
+    public ResponseEntity<String> addContact(@RequestBody CreateContactRequest contact) {
+        if (contactExists(contact.getName())) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Contact already exists! \n Pleae try again.");
+        }
+        contacts.add(contact);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Contact Added Successfully!");
     }
 }
 
