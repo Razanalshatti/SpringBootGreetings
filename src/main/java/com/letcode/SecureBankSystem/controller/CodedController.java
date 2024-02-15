@@ -20,7 +20,7 @@ public class CodedController {
 
     @GetMapping("/sayHi")
     public String sayHi() {
-        return "Welcome to Coded";
+        return "Welcome Razan Alshatti";
     }
 
     @GetMapping("/greet")

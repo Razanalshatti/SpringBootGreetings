@@ -5,6 +5,8 @@ public class CreateContactRequest {
     private String email;
     private Long phone;
 
+    private String status;
+
     public String getName() {
         return name;
     }
@@ -12,7 +14,6 @@ public class CreateContactRequest {
     public void setName(String name) {
         this.name = name;
     }
-
 
     public String getEmail() {
         return email;
@@ -28,5 +29,13 @@ public class CreateContactRequest {
 
     public void setPhone(Long phone) {
         this.phone = phone;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

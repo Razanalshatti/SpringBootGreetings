@@ -1,4 +1,4 @@
-package com.letcode.SecureBankSystem.service;
+package com.letcode.SecureBankSystem.service.user;
 
 import com.letcode.SecureBankSystem.bo.user.CreateUserRequest;
 import com.letcode.SecureBankSystem.bo.user.UpdateUserStatusRequest;
@@ -7,7 +7,8 @@ import com.letcode.SecureBankSystem.util.enums.Status;
 import com.letcode.SecureBankSystem.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
-import static com.letcode.SecureBankSystem.util.enums.Status.INACTIVE;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -38,6 +39,20 @@ public class UserServiceImpl implements UserService {
         }
         userEntity.setStatus(Status.valueOf(updateUserStatusRequest.getStatus()));
         userRepository.save(userEntity);
+    }
+
+    @Override
+    public List<String> getAllUsersWithStrongPassword() {
+        return userRepository.findAll()
+                .stream()
+                .filter(e-> e.getPassword().length() > 8)
+                .map(UserEntity::getName)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<String> getALlUsersWithStrongPassword() {
+        return null;
     }
 
 }

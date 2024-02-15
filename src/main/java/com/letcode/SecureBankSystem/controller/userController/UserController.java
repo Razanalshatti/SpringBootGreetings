@@ -1,17 +1,21 @@
 package com.letcode.SecureBankSystem.controller.userController;
 
+import com.letcode.SecureBankSystem.bo.suggestion.CreateSuggestionRequest;
 import com.letcode.SecureBankSystem.bo.user.CreateUserRequest;
 import com.letcode.SecureBankSystem.bo.user.UpdateUserStatusRequest;
-import com.letcode.SecureBankSystem.service.UserService;
+import com.letcode.SecureBankSystem.service.suggestion.GuestSuggestionService;
+import com.letcode.SecureBankSystem.service.user.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/api/v1/user")
 public class UserController {
     private final UserService userService;
-
-    public UserController(UserService userService) {
+    private final GuestSuggestionService suggestionService;
+    public UserController(UserService userService, GuestSuggestionService suggestionService) {
         this.userService = userService;
+        this.suggestionService = suggestionService;
     }
 
     @PostMapping("/create-user")
@@ -33,4 +37,5 @@ public ResponseEntity<String> UpdateUser(@RequestParam Long userId,@RequestBody 
     return ResponseEntity.ok("User Updated Successfully!!");
 
 }
+
 }
